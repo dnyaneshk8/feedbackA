@@ -23,7 +23,7 @@ mongoose.connect(keys.monogURI);
 require("./routes/authRoute")(app);
 require("./routes/billingRoute")(app);
 
-if (process.env.NODE_ENV === production) {
+if (process.env.NODE_ENV === "production") {
 	// express will serve up production assets
 	app.use(express.static("client/build"));
 
