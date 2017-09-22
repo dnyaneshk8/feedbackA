@@ -4,5 +4,7 @@ module.exports = {
 	GoogleClientSecret: "fKgaWQVUu730ZgTuV1ikTFwO",
 	monogURI:
 		"mongodb://dnyanesh:dnyaneshk08@ds139844.mlab.com:39844/feedback_by_dk",
-	cookieKey: "asdashgasdjj"
+	cookieKey: "asdashgasdjj",
+	STRIPE_PUBLISHABLE_KEY: "pk_test_TwpSJ2fAXP2fMdu1rX3pwwpD",
+	STRIPE_SECRET_KEY: "sk_test_lgzsAu32H6CORGv9xoPFkBFs"
 };
