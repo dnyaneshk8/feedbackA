@@ -20,7 +20,7 @@ export const billingUser = token => {
 export const submitSurvey = (values, history) => {
 	return function(dispatch) {
 		axios.post("/api/addSurvey", values).then(res => {
-			history.push("/survey");
+			history.push("/surveys");
 			dispatch({ type: FETCH_USER, payload: res.data });
 		});
 	};
