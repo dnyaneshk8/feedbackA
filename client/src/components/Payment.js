@@ -16,7 +16,7 @@ class Payment extends React.Component {
 				token={token => this.props.billingUser(token)}
 				stripeKey={process.env.REACT_APP_SECRET_CODE}
 			>
-				<button className="btn">Add credit</button>
+				<button className="btn btn-primary">Add credit</button>
 			</StripeCheckout>
 		);
 	}

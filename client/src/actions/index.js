@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_USER } from "./types";
+import { FETCH_USER, FETCH_SURVEYS } from "./types";
 
 export const fetchUser = () => {
 	return function(dispatch) {
@@ -14,5 +14,30 @@ export const billingUser = token => {
 		axios
 			.post("/api/chargeUser", token)
 			.then(res => dispatch({ type: FETCH_USER, payload: res.data }));
+	};
+};
+
+export const submitSurvey = (values, history) => {
+	return function(dispatch) {
+		axios.post("/api/addSurvey", values).then(res => {
+			history.push("/survey");
+			dispatch({ type: FETCH_USER, payload: res.data });
+		});
+	};
+};
+
+export const getSurveys = () => {
+	return function(dispatch) {
+		axios.get("/api/surveys").then(res => {
+			dispatch({ type: FETCH_SURVEYS, payload: res.data });
+		});
+	};
+};
+
+export const searchSurveys = searchKey => {
+	return function(dispatch) {
+		axios.get("/api/searchsurveys/" + searchKey).then(res => {
+			dispatch({ type: FETCH_SURVEYS, payload: res.data });
+		});
 	};
 };

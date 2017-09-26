@@ -11,7 +11,6 @@ module.exports = app => {
 				description: "Charge for feedback credit"
 			},
 			function(err, charge) {
-				console.log("charge is", charge);
 
 				req.user.credits += 500;
 				req.user.save((err, user) => {

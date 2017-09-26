@@ -5,8 +5,9 @@ import * as actions from "../actions";
 
 import Header from "./Header";
 import Landing from "./Landing";
-const Survey = () => <h4>Survey</h4>;
-const Dashboard = () => <h4>Dashboard</h4>;
+import Dashboard from "./Dashboard";
+import SurveyNew from "./Survey/SurveyNew";
+import Surveys from "./Survey/Surveys";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -16,11 +17,14 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<div className="container">
+				<div>
 					<Header />
-					<Route exact path="/" component={Landing} />
-					<Route exact path="/survey" component={Survey} />
-					<Route exact path="/dashboard" component={Dashboard} />
+					<div className="container">
+						<Route exact path="/" component={Landing} />
+						<Route exact path="/surveys" component={Surveys} />
+						<Route path="/dashboard" component={Dashboard} />
+						<Route path="/survey/new" component={SurveyNew} />
+					</div>
 				</div>
 			</Router>
 		);

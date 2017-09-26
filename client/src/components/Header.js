@@ -26,6 +26,9 @@ class Header extends React.Component {
 						Credit : {this.props.auth.credits}
 					</li>,
 					<li key="2">
+						<Link to="/surveys"> My surveys </Link>
+					</li>,
+					<li key="3">
 						<a href="/api/logout">Logout</a>
 					</li>
 				];
@@ -33,19 +36,24 @@ class Header extends React.Component {
 		}
 	}
 	render() {
-		console.log("Auth object is", this.props.auth);
 		return (
 			<nav>
 				<div className="nav-wrapper">
-					<Link
-						to={this.props.auth ? "/dashborad" : "/"}
-						className="brand-logo"
-					>
-						Feedback
-					</Link>
-					<ul id="nav-mobile" className="right hide-on-med-and-down">
-						{this.renderContent()}
-					</ul>
+					<div className="container">
+						<Link
+							to={this.props.auth ? "/dashborad" : "/"}
+							className="brand-logo"
+						>
+							Feedback
+						</Link>
+
+						<ul
+							id="nav-mobile"
+							className="right hide-on-med-and-down"
+						>
+							{this.renderContent()}
+						</ul>
+					</div>
 				</div>
 			</nav>
 		);
