@@ -1,3 +1,6 @@
+const _ = require("lodash");
+const Path = require("path-parser");
+const { URL } = require("url");
 var loggedInUser = require("../middlewares/loggedInUser");
 var hasCredits = require("../middlewares/hasCredits");
 var Mailer = require("../services/Mailer");
@@ -12,7 +15,9 @@ module.exports = app => {
 			title,
 			subject,
 			body,
-			recipients: recipients.split(",").map(email => email),
+			recipients: recipients
+				.split(",")
+				.map(email => ({ email: email.trim() })),
 			_user: req.user.id,
 			datesent: Date.now()
 		});
@@ -36,19 +41,67 @@ module.exports = app => {
 			});
 	});
 
-	app.get("/api/searchsurveys/:key",loggedInUser, (req, res) => {
-		Survey.find({ "title": { $regex: '.*^' + req.params.key + '.*', $options: "i" }})
+	app.post("/api/surveys/webhooks", (req, res) => {
+		console.log("Response is", req.body);
+		const p = new Path("/api/surveys/:surveyId/:choice");
+		const events = _.chain(req.body)
+			.map(({ email, url }) => {
+				const match = p.test(new URL(url).pathname);
+				console.log("Match is", match);
+				if (match) {
+					return {
+						email,
+						surveyId: match.surveyId,
+						choice: match.choice
+					};
+				}
+			})
+			.compact()
+			.uniqBy("email", "surveyId")
+			.each(({ surveyId, email, choice }) => {
+				Survey.updateOne(
+					{
+						_id: surveyId,
+						recipients: {
+							$elemMatch: { email: email, responded: false }
+						}
+					},
+					{
+						$inc: { [choice]: 1 },
+						$set: { "recipients.$.responded": true },
+						lastResponded: new Date()
+					}
+				).exec();
+			})
+			.value();
+
+		console.log("Events are ", events);
+		res.send({});
+	});
+
+	app.get("/api/searchsurveys/:key", loggedInUser, (req, res) => {
+		Survey.find({
+			title: { $regex: ".*^" + req.params.key + ".*", $options: "i" }
+		})
 			.select({ recipients: false })
 			.then(surveys => {
-				if(surveys.length)
-				{
+				if (surveys.length) {
 					res.send(surveys);
-				}
-				else
-				{
+				} else {
 					res.send(false);
 				}
-				
 			});
+	});
+
+	app.delete("/api/deletesurvey/:id", loggedInUser, (req, res) => {
+		Survey.remove({
+			_id: req.params.id
+		}).then(() => {
+			Survey.find({ _user: req.user.id })
+				.select({ recipients: false })
+				.then(surveys => {
+					res.send(surveys);
+				});
+		});
 	});
 };

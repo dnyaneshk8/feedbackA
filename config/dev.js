@@ -7,5 +7,5 @@ module.exports = {
 	cookieKey: "asdashgasdjj",
 	STRIPE_PUBLISHABLE_KEY: "pk_test_TwpSJ2fAXP2fMdu1rX3pwwpD",
 	STRIPE_SECRET_KEY: "sk_test_lgzsAu32H6CORGv9xoPFkBFs",
-	sendGridKey:"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"
+	sendGridKey:"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"
 };

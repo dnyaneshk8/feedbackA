@@ -6,4 +6,4 @@ const Recipient = new Schema({
 	responded: { type: Boolean, default: false }
 });
 
-mongoose.model("recipient", Recipient);
+module.exports = Recipient;

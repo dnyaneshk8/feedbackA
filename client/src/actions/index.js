@@ -41,3 +41,10 @@ export const searchSurveys = searchKey => {
 		});
 	};
 };
+
+export const deleteSurvey = surveyId => {
+	return function(dispatch) {
+		axios.delete("/api/deletesurvey/" + surveyId)
+		.then(res => {dispatch({ type: FETCH_SURVEYS, payload: res.data });
+});}
+}

@@ -10,7 +10,8 @@ const Survey = new Schema({
 	_user: { type: Schema.Types.ObjectId, ref: "user" },
 	datesent: Date,
 	yes: { type: Number, default: 0 },
-	no: { type: Number, default: 0 }
+	no: { type: Number, default: 0 },
+	lastResponded: Date
 });
 
 mongoose.model("survey", Survey);

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import moment from "moment";
 
 class SurveyList extends React.Component {
 
@@ -14,6 +15,12 @@ class SurveyList extends React.Component {
 		{
 			this.props.getSurveys();
 		}
+	}
+
+	onHandleDelete(surveyId)
+	{	
+		console.log("Survey id is", surveyId);
+		this.props.deleteSurvey(surveyId);
 	}
 
 	renderSurveys() {
@@ -48,19 +55,24 @@ class SurveyList extends React.Component {
 			default:
 				return this.props.surveys.map(survey => {
 					return (
-						<div className="row">
+						<div className="row" key={survey._id}>
 							<div className="col s12 m12">
 								<div className="card blue-grey darken-1">
 									<div className="card-content white-text">
 										<span className="card-title">
 											{survey.title}
 										</span>
+										<span>{survey.subject}</span>
+										<hr />
 										<p>{survey.body}</p>
 									</div>
 									<div className="card-action">
 										<a href="#">Yes : {survey.yes}</a>
 										<a href="#">No : {survey.no}</a>
+										<button className="btn center red" onClick={(event) => this.onHandleDelete(survey._id)}>Delete survey</button>
+										<a className="right">Last responded : { moment(survey.lastResponded).fromNow() }</a>
 									</div>
+
 								</div>
 							</div>
 						</div>
